@@ -1,10 +1,27 @@
 import React from 'react'
+import { useDispatch } from "react-redux";
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import {closeSideBarActionCreator} from '../store/product/productSlice'
 import styled from 'styled-components'
 
 const CartButtons = () => {
-  return <h4>cart buttons </h4>
+  const dispatch = useDispatch();
+  const closeSidebar = () => {
+    dispatch(closeSideBarActionCreator())
+  }
+  return <Wrapper className='cart-btn-wrapper'>
+    <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
+      Cart
+      <span className='cart-container'>
+        <FaShoppingCart />
+        <span className='cart-value'>12</span>
+      </span>
+    </Link>
+    <button type='button' className='auth-btn'>
+      Login <FaUserPlus />
+    </button>
+  </Wrapper>
 }
 
 const Wrapper = styled.div`

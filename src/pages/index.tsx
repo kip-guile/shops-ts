@@ -1,7 +1,20 @@
-import React from 'react'
-import { FeaturedProducts, Hero, Services, Contact } from '../components'
-const Index = () => {
-  return <h4>home page</h4>
-}
+import Home from './HomePage'
+import Error from './ErrorPage'
+import Products from './ProductsPage'
+import SingleProduct from './SingleProductPage'
+import About from './AboutPage'
+import Cart from './CartPage'
+import Checkout from './CheckoutPage'
+import PrivateRoute from './PrivateRoute'
 
-export default Index
+
+export {
+  Home,
+  Error,
+  Products,
+  SingleProduct,
+  About,
+  Cart,
+  Checkout,
+  PrivateRoute
+}
