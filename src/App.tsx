@@ -1,9 +1,24 @@
-import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import {Navbar, Sidebar, Footer} from './components'
-import {Home, SingleProduct, Cart, Checkout, Error, About, PrivateRoute, Products} from './pages'
+import { useThunkDispatch } from './hooks/useThunkDispatch'
+import { Navbar, Sidebar, Footer } from './components'
+import {
+  Home,
+  SingleProduct,
+  Cart,
+  Checkout,
+  Error,
+  About,
+  PrivateRoute,
+  Products,
+} from './pages'
+import { getProductsFromServer } from './store/product/productSlice'
+import { useEffect } from 'react'
 
 function App() {
+  const dispatch = useThunkDispatch()
+  useEffect(() => {
+    dispatch(getProductsFromServer())
+  }, [])
   return (
     <Router>
       <Navbar />

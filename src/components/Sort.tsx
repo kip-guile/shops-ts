@@ -1,8 +1,54 @@
-import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../store/rootReducer'
 import { BsFillGridFill, BsList } from 'react-icons/bs'
+import {
+  setGridViewActionCreator,
+  setListViewActionCreator,
+  updateSortActionCreator,
+} from '../store/filter/filterSlice'
 import styled from 'styled-components'
 const Sort = () => {
-  return <h4>sort </h4>
+  const dispatch = useDispatch()
+  const { filtered_products, grid_view, sort } = useSelector(
+    (state: RootState) => state.filter
+  )
+  return (
+    <Wrapper>
+      <div className='btn-container'>
+        <button
+          type='button'
+          className={`${grid_view ? 'active' : null}`}
+          onClick={() => dispatch(setGridViewActionCreator())}
+        >
+          <BsFillGridFill />
+        </button>
+        <button
+          type='button'
+          className={`${!grid_view ? 'active' : null}`}
+          onClick={() => dispatch(setListViewActionCreator())}
+        >
+          <BsList />
+        </button>
+      </div>
+      <p>{filtered_products.length} products found</p>
+      <hr />
+      <form>
+        <label htmlFor='sort'>sort by</label>
+        <select
+          name='sort'
+          id='sort'
+          className='sort-input'
+          value={sort}
+          onChange={(e) => dispatch(updateSortActionCreator(e.target.value))}
+        >
+          <option value='price-lowest'>price (lowest)</option>
+          <option value='price-highest'>price (highest)</option>
+          <option value='name-a'>name (a-z)</option>
+          <option value='name-z'>name (z-a)</option>
+        </select>
+      </form>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`
