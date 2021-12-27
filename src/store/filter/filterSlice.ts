@@ -9,9 +9,9 @@ export const initialFilterState: FilterInitialState = {
   sort: 'price-lowest',
   filters: {
     text: '',
-    company: '',
-    category: '',
-    color: '',
+    company: 'all',
+    category: 'all',
+    color: 'all',
     min_price: 0,
     max_price: 0,
     price: 0,
@@ -50,6 +50,67 @@ const filterSlice = createSlice({
       }
       state.filtered_products = tempProducts
     },
+    updateFilters: (
+      state,
+      {
+        payload: { name, value },
+      }: PayloadAction<{ name: string; value: string | number | boolean }>
+    ) => {
+      const { text, category, company, color, price, shipping } = state.filters
+      let tempProducts = [...state.all_products]
+      if (text) {
+        tempProducts = tempProducts.filter((product) => {
+          return product.name.toLowerCase().startsWith(text)
+        })
+      }
+      if (category !== 'all') {
+        tempProducts = tempProducts.filter((product) => {
+          return product.category === category
+        })
+      }
+      if (company !== 'all') {
+        tempProducts = tempProducts.filter((product) => {
+          return product.company === company
+        })
+      }
+      if (color !== 'all') {
+        tempProducts = tempProducts.filter((product) => {
+          return product.colors.find((c) => c === color)
+        })
+      }
+      if (price) {
+        tempProducts = tempProducts.filter((product) => {
+          return product.price <= price
+        })
+      }
+      if (shipping) {
+        tempProducts = tempProducts.filter((product) => {
+          return product.shipping === true
+        })
+      }
+      return {
+        ...state,
+        filtered_products: tempProducts,
+        filters: {
+          ...state.filters,
+          [name]: value,
+        },
+      }
+    },
+    clearFilters: (state) => {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          text: '',
+          company: 'all',
+          category: 'all',
+          color: 'all',
+          price: state.filters.max_price,
+          shipping: false,
+        },
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProductsFromServer.fulfilled, (state, action) => {
@@ -73,6 +134,8 @@ export const {
   setGridView: setGridViewActionCreator,
   setListView: setListViewActionCreator,
   updateSort: updateSortActionCreator,
+  updateFilters: updateFiltersActionCreator,
+  clearFilters: clearFiltersActionCreator,
 } = filterSlice.actions
 
 export default filterSlice.reducer
