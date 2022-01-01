@@ -1,12 +1,39 @@
-import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../store/rootReducer'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import CartColumns from './CartColumns'
 import CartItem from './CartItem'
 import CartTotals from './CartTotals'
+import { clearCartActionCreator } from '../store/cart/cartSlice'
 
 const CartContent = () => {
-  return <h4>cart content </h4>
+  const dispatch = useDispatch()
+  const cart = useSelector((state: RootState) => state.cart)
+  const { cart: innerCart } = cart
+  return (
+    <Wrapper className='section section-center'>
+      <CartColumns />
+      {innerCart &&
+        innerCart.map((item) => {
+          return <CartItem key={item.id} {...item} />
+        })}
+      <hr />
+      <div className='link-container'>
+        <Link to='/products' className='link-btn'>
+          continue shopping
+        </Link>
+        <button
+          type='button'
+          className='link-btn clear-btn'
+          onClick={() => dispatch(clearCartActionCreator())}
+        >
+          clear shopping cart
+        </button>
+      </div>
+      <CartTotals />
+    </Wrapper>
+  )
 }
 const Wrapper = styled.section`
   .link-container {

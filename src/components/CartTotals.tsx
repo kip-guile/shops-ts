@@ -1,10 +1,42 @@
-import React from 'react'
+import { useSelector } from 'react-redux'
+import { useAuth0 } from '@auth0/auth0-react'
+import { RootState } from '../store/rootReducer'
 import styled from 'styled-components'
 import { formatPrice } from '../utils/helpers'
 import { Link } from 'react-router-dom'
 
 const CartTotals = () => {
-  return <h4>cart totals</h4>
+  const { user, loginWithRedirect } = useAuth0()
+  const cart = useSelector((state: RootState) => state.cart)
+  const { total_amount, shipping_fee } = cart
+  return (
+    <Wrapper>
+      <div>
+        <article>
+          <h5>
+            subtotal : <span>{formatPrice(total_amount)}</span>
+          </h5>
+          <p>
+            shipping fee : <span>{formatPrice(shipping_fee)}</span>
+          </p>
+          <hr />
+          <h4>
+            order total :{' '}
+            <span>{formatPrice(total_amount + shipping_fee)}</span>
+          </h4>
+        </article>
+        {user ? (
+          <Link to='/checkout' className='btn'>
+            proceed to checkout
+          </Link>
+        ) : (
+          <button type='button' className='btn' onClick={loginWithRedirect}>
+            login
+          </button>
+        )}
+      </div>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`

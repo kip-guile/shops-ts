@@ -1,13 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createSlice } from '@reduxjs/toolkit'
 
 const userSlice = createSlice({
-  name: 'movies',
+  name: 'user',
   initialState: [],
   reducers: {},
-  extraReducers: (builder) => {
-
-  },
+  extraReducers: (builder) => {},
 })
 
 export default userSlice.reducer

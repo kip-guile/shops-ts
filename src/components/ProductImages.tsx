@@ -8,7 +8,6 @@ interface ProductImagesProps {
 
 const ProductImages = ({ images = [{ url: '' }] }: ProductImagesProps) => {
   const [main, setMain] = useState<Images>(images[0])
-  console.log(main)
   return (
     <Wrapper>
       {main && <img src={main.url} alt='main' className='main' />}

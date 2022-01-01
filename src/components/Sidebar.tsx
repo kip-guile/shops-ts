@@ -1,45 +1,56 @@
-import React from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import logo from '../assets/logo.svg'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
 import { FaTimes } from 'react-icons/fa'
 import { RootState } from '../store/rootReducer'
 import { links } from '../utils/constants'
 import styled from 'styled-components'
 import CartButtons from './CartButtons'
-import {closeSideBarActionCreator} from '../store/product/productSlice'
+import { closeSideBarActionCreator } from '../store/product/productSlice'
 import { GiLightningSlashes } from 'react-icons/gi'
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
+  const { user } = useAuth0()
+  const dispatch = useDispatch()
   const products = useSelector((state: RootState) => state.products)
-  const { isSideBarOpen } = products
+  const { isSideBarOpen } = products
   const closeSidebar = () => {
     dispatch(closeSideBarActionCreator())
   }
-  return <SidebarContainer>
-    <aside className={`${isSideBarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
-      <div className='sidebar-header'>
-        <img src={logo} className='logo' alt='comfy sloth' />
-        <button className='close-btn' type='button' onClick={closeSidebar}>
-          <FaTimes />
-        </button>
-      </div>
-      <ul className='links'>
-        {links.map(({id, text, url}) => {
-          return (
-            <li key={id}>
-              <Link to={url} onClick={closeSidebar}>{text}</Link>
+  return (
+    <SidebarContainer>
+      <aside
+        className={`${isSideBarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}
+      >
+        <div className='sidebar-header'>
+          <img src={logo} className='logo' alt='comfy sloth' />
+          <button className='close-btn' type='button' onClick={closeSidebar}>
+            <FaTimes />
+          </button>
+        </div>
+        <ul className='links'>
+          {links.map(({ id, text, url }) => {
+            return (
+              <li key={id}>
+                <Link to={url} onClick={closeSidebar}>
+                  {text}
+                </Link>
+              </li>
+            )
+          })}
+          {user && (
+            <li>
+              <Link to='/checkout' onClick={closeSidebar}>
+                checkout
+              </Link>
             </li>
-          )
-        })}
-        <li>
-          <Link to='/checkout' onClick={closeSidebar}>checkout</Link>
-        </li>
-      </ul>
-      <CartButtons />
-    </aside>
-  </SidebarContainer>
+          )}
+        </ul>
+        <CartButtons />
+      </aside>
+    </SidebarContainer>
+  )
 }
 
 const SidebarContainer = styled.div`

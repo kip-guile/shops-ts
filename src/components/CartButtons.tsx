@@ -1,27 +1,47 @@
-import React from 'react'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux'
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import {closeSideBarActionCreator} from '../store/product/productSlice'
+import { useAuth0 } from '@auth0/auth0-react'
+import { RootState } from '../store/rootReducer'
+import { closeSideBarActionCreator } from '../store/product/productSlice'
 import styled from 'styled-components'
 
 const CartButtons = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const cart = useSelector((state: RootState) => state.cart)
+  const { loginWithRedirect, logout, user } = useAuth0()
+  const { total_items } = cart
   const closeSidebar = () => {
     dispatch(closeSideBarActionCreator())
   }
-  return <Wrapper className='cart-btn-wrapper'>
-    <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
-      Cart
-      <span className='cart-container'>
-        <FaShoppingCart />
-        <span className='cart-value'>12</span>
-      </span>
-    </Link>
-    <button type='button' className='auth-btn'>
-      Login <FaUserPlus />
-    </button>
-  </Wrapper>
+  return (
+    <Wrapper className='cart-btn-wrapper'>
+      <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
+        Cart
+        <span className='cart-container'>
+          <FaShoppingCart />
+          <span className='cart-value'>{total_items}</span>
+        </span>
+      </Link>
+      {user ? (
+        <button
+          type='button'
+          className='auth-btn'
+          onClick={() => logout({ returnTo: window.location.origin })}
+        >
+          Logout <FaUserMinus />
+        </button>
+      ) : (
+        <button
+          type='button'
+          className='auth-btn'
+          onClick={() => loginWithRedirect()}
+        >
+          Login <FaUserPlus />
+        </button>
+      )}
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.div`

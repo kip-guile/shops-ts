@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useThunkDispatch } from './hooks/useThunkDispatch'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from './store/rootReducer'
 import { Navbar, Sidebar, Footer } from './components'
 import {
   Home,
@@ -12,13 +15,19 @@ import {
   Products,
 } from './pages'
 import { getProductsFromServer } from './store/product/productSlice'
-import { useEffect } from 'react'
+import { countCartTotalsActionCreator } from './store/cart/cartSlice'
 
 function App() {
-  const dispatch = useThunkDispatch()
+  const cart = useSelector((state: RootState) => state.cart)
+  const thunkDispatch = useThunkDispatch()
+  // const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getProductsFromServer())
+    thunkDispatch(getProductsFromServer())
   }, [])
+  useEffect(() => {
+    // dispatch(countCartTotalsActionCreator())
+    localStorage.setItem('cart', JSON.stringify(cart.cart))
+  }, [cart])
   return (
     <Router>
       <Navbar />
