@@ -8,7 +8,6 @@ import { links } from '../utils/constants'
 import styled from 'styled-components'
 import CartButtons from './CartButtons'
 import { closeSideBarActionCreator } from '../store/product/productSlice'
-import { GiLightningSlashes } from 'react-icons/gi'
 
 const Sidebar = () => {
   const { user } = useAuth0()

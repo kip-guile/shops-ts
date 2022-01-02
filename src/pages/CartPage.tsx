@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../store/rootReducer'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { RootState } from '../store/rootReducer'
 import { closeSideBarActionCreator } from '../store/product/productSlice'
+import { clearCartActionCreator } from '../store/cart/cartSlice'
 import styled from 'styled-components'
 
 const CartButtons = () => {
@@ -27,7 +28,10 @@ const CartButtons = () => {
         <button
           type='button'
           className='auth-btn'
-          onClick={() => logout({ returnTo: window.location.origin })}
+          onClick={() => {
+            dispatch(clearCartActionCreator())
+            logout({ returnTo: window.location.origin })
+          }}
         >
           Logout <FaUserMinus />
         </button>

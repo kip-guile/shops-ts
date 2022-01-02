@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/rootReducer'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Error from './Error'
 import Loading from './Loading'

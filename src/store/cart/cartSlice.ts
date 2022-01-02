@@ -29,7 +29,6 @@ const cartSlice = createSlice({
         payload: { id, mainColor: color, amount, product },
       }: PayloadAction<CartPayload>
     ) => {
-      console.log('state ==>', state.cart)
       const tempItem = state.cart.find((i) => i.id === id + color)
       if (tempItem) {
         const tempCart = state.cart.map((cartItem) => {
@@ -86,9 +85,8 @@ const cartSlice = createSlice({
             }
             return { ...item, amount: newAmount }
           }
-        } else {
-          return item
         }
+        return item
       })
       return {
         ...state,

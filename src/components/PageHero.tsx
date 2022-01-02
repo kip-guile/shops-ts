@@ -1,7 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Product } from '../store/product/types'
 
 interface PageHeroProps {
   title: string

@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../Users/alexander/Desktop/Projects/personal/ecommerce-tsx/functions/hello.ts"],
+  "sourceRoot": "/var/folders/jh/trptcygn1tnchvls7v3fy1fw0000gn/T/tmp-56374-fSDNUhCpfN4D",
+  "sourcesContent": ["exports.handler = async function (event, context) {\n  return {\n    statusCode: 200,\n    body: 'Hello World',\n  }\n}\n"],
+  "mappings": ";AAAA,QAAQ,UAAU,eAAgB,OAAO,SAAS;AAChD,SAAO;AAAA,IACL,YAAY;AAAA,IACZ,MAAM;AAAA;AAAA;",
+  "names": []
+}
