@@ -99,22 +99,6 @@ const cartSlice = createSlice({
         cart: [],
       }
     },
-    countCartTotals: (state) => {
-      const { total_items, total_amount } = state.cart.reduce(
-        (total, cartItem) => {
-          const { amount, price } = cartItem
-          total.total_items += amount
-          total.total_amount += price * amount
-          return total
-        },
-        { total_items: 0, total_amount: 0 }
-      )
-      return {
-        ...state,
-        total_items,
-        total_amount,
-      }
-    },
   },
   extraReducers: (builder) => {},
 })
@@ -124,7 +108,6 @@ export const {
   removeItem: removeItemActionCreator,
   toggleAmount: toggleAmountActionCreator,
   clearCart: clearCartActionCreator,
-  countCartTotals: countCartTotalsActionCreator,
 } = cartSlice.actions
 
 export default cartSlice.reducer

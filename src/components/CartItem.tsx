@@ -17,6 +17,7 @@ const CartItem = ({ id, image, name, color, price, amount }: CartItemProps) => {
   const decrease = () => {
     dispatch(toggleAmountActionCreator({ id, value: 'dec' }))
   }
+
   return (
     <Wrapper>
       <div className='title'>

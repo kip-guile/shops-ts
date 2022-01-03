@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -5,13 +6,20 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { RootState } from '../store/rootReducer'
 import { closeSideBarActionCreator } from '../store/product/productSlice'
 import { clearCartActionCreator } from '../store/cart/cartSlice'
+import { getCartTotals } from '../utils/helpers'
 import styled from 'styled-components'
 
 const CartButtons = () => {
+  const [noOfItems, setNoOfItems] = useState(0)
   const dispatch = useDispatch()
   const cart = useSelector((state: RootState) => state.cart)
   const { loginWithRedirect, logout, user } = useAuth0()
-  const { total_items } = cart
+  const { cart: innerCart } = cart
+
+  useEffect(() => {
+    getCartTotals(innerCart, setNoOfItems)
+  }, [innerCart])
+
   const closeSidebar = () => {
     dispatch(closeSideBarActionCreator())
   }
@@ -21,7 +29,7 @@ const CartButtons = () => {
         Cart
         <span className='cart-container'>
           <FaShoppingCart />
-          <span className='cart-value'>{total_items}</span>
+          <span className='cart-value'>{noOfItems}</span>
         </span>
       </Link>
       {user ? (

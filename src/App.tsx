@@ -16,18 +16,15 @@ import {
   AuthWrapper,
 } from './pages'
 import { getProductsFromServer } from './store/product/productSlice'
-// import { countCartTotalsActionCreator } from './store/cart/cartSlice'
 
 function App() {
   const cart = useSelector((state: RootState) => state.cart)
   const thunkDispatch = useThunkDispatch()
-  // const dispatch = useDispatch()
   useEffect(() => {
     thunkDispatch(getProductsFromServer())
     // eslint-disable-next-line
   }, [])
   useEffect(() => {
-    // dispatch(countCartTotalsActionCreator())
     localStorage.setItem('cart', JSON.stringify(cart.cart))
   }, [cart])
   return (
